@@ -30,6 +30,7 @@ func main() {
     route.RedisRoute(r)
     route.KafkaRoute(r)
     route.RabbitRoute(r)
+    route.ElasticsearchRoute(r)
 
     r.Run("0.0.0.0:9999")
 }

@@ -26,16 +26,22 @@ func RedisRoute(route *gin.Engine) {
 }
 
 func KafkaRoute(route *gin.Engine) {
-    redis_route := route.Group("/kafka")
-    redis_route.Use(middleware.AuthRequired)
-    redis_route.POST("/produce/:message", handler.KafkaProduce)
-    redis_route.GET("/consume", handler.KafkaConsume)
+    kafka_route := route.Group("/kafka")
+    kafka_route.Use(middleware.AuthRequired)
+    kafka_route.POST("/produce/:message", handler.KafkaProduce)
+    kafka_route.GET("/consume", handler.KafkaConsume)
 }
 
-
 func RabbitRoute(route *gin.Engine) {
-    redis_route := route.Group("/rabbit")
-    redis_route.Use(middleware.AuthRequired)
-    redis_route.POST("/send/:message", handler.RabbitSend)
-    redis_route.GET("/receive", handler.RabbitReceive)
+    rabbit_route := route.Group("/rabbit")
+    rabbit_route.Use(middleware.AuthRequired)
+    rabbit_route.POST("/send/:message", handler.RabbitSend)
+    rabbit_route.GET("/receive", handler.RabbitReceive)
+}
+
+func ElasticsearchRoute(route *gin.Engine) {
+    rabbit_route := route.Group("/elasticsearch")
+    rabbit_route.POST("/put", handler.ElasticsearchPut)
+    rabbit_route.GET("/get/:id", handler.ElasticsearchGet)
+    rabbit_route.DELETE("/delete/:id", handler.ElasticsearchDelete)
 }
