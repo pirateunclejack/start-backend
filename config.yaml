@@ -1,25 +1,25 @@
 JWT_SECRET: '9oE2Mm8y7cySiIFjARbzWi0pnJbFEom3SW1NR6f1c9IvWla3mhX6i6sN5UeWE2sT'
 
-DB_ADDRESS: 'localhost'
+DB_HOST: 'postgres'
 DB_PORT: '5432'
-DB_NAME: 'start-backend'
+DB_NAME: 'postgres'
 DB_USER: 'postgres'
 DB_PASSWORD: 'example'
 
-REDIS_ADDR: 'localhost'
+REDIS_ADDR: 'redis'
 REDIS_PORT: '6379'
 REDIS_PASSWORD: 'gysuAqPqAECUl0c8JL0oLckFTboBNZgU'
 REDIS_DATABASE: 0
 
-KAFKA_ADDRESS: 'localhost:9094'
+KAFKA_ADDRESS: 'kafka:9094'
 KAFKA_TOPIC: 'start-backend'
 KAFKA_PARTITION: 0
 
-RABBIT_ADDRESS: 'localhost'
+RABBIT_ADDRESS: 'rabbitmq'
 RABBIT_PORT: '5672'
 RABBIT_USERNAME: 'username'
 RABBIT_PASSWORD: '2a55f70a841f18b97c3a7db939b7adc9e34a0f1b'
 RABBIT_QUEUE: 'start'
 
-ELASTICSEARCH_URL: 'https://localhost:9200/'
+ELASTICSEARCH_URL: 'http://elasticsearch:9200/'
 ELASTICSEARCH_INDEX: 'my_index'

@@ -23,16 +23,7 @@ func ElasticsearchPut(c *gin.Context)  {
             },
     	)
     }
-    // data, err := json.Marshal(product)
-    // if err != nil {
-    //     c.JSON(
-    //         http.StatusInternalServerError, 
-    //         gin.H{
-    //             "error": "failed to marshal product",
-    //             "error_detail": err.Error(),
-    //         },
-    // 	)
-    // }
+
     els_client, err := els.NewElasticsearchClient()
     if err != nil {
         c.JSON(

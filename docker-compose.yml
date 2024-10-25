@@ -1,0 +1,104 @@
+services:
+  start-backend:
+    image: acim/go-reflex:1.23.2
+    environment:
+      BUILD_ARGS: -buildvcs=false
+    volumes:
+      - .:/app
+    ports:
+      - 9999:9999
+    networks:
+      - start-backend
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+      - rabbitmq
+      - elasticsearch
+
+  postgres:
+    image: bitnami/postgresql:17.0.0
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432
+    networks:
+      - start-backend
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - start-backend
+
+  redis:
+    image: docker.io/bitnami/redis:7.4.1
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      # - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+      - REDIS_PASSWORD=gysuAqPqAECUl0c8JL0oLckFTboBNZgU
+    ports:
+      - '6379:6379'
+    networks:
+      - start-backend
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+
+  kafka:
+    image: 'bitnami/kafka:3.3.2'
+    ports:
+      - '9092:9092'
+      - '9093:9093'
+      - '9094:9094'
+    networks:
+      - start-backend
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://broker:9092,EXTERNAL://localhost:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+
+  rabbitmq:
+    image: 'bitnami/rabbitmq:3.13.7'
+    networks:
+      - start-backend
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_USERNAME=user
+      - RABBITMQ_PASSWORD=bitnami
+      - RABBITMQ_PLUGINS='rabbitmq_management'
+
+  elasticsearch:
+    image: 'bitnami/elasticsearch:8.15.3'
+    ports:
+      - 9200:9200
+    networks:
+      - start-backend
+
+  kibana:
+    image: 'bitnami/kibana:8.15.3'
+    ports:
+      - 5601:5601
+    environment:
+      - KIBANA_ELASTICSEARCH_URL=elasticsearch
+    networks:
+      - start-backend
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  start-backend:
+    driver: bridge

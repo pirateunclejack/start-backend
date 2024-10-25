@@ -11,10 +11,16 @@ import (
 
 func AuthRequired(c *gin.Context) {
     bearerToken := c.Request.Header.Get("Authorization")
+    if bearerToken == "" {
+        c.JSON(http.StatusInternalServerError, gin.H{
+            "error": "no authorization header provided",
+        })
+        c.Abort()
+        return
+    }
+
     clientToken := strings.Split(bearerToken, " ")[1]
-
     fmt.Printf("token: %v\n", clientToken)
-
     if clientToken == "" {
         c.JSON(http.StatusInternalServerError, gin.H{
             "error": "no authorization header provided",
