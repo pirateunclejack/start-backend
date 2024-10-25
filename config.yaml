@@ -2,7 +2,7 @@ JWT_SECRET: '9oE2Mm8y7cySiIFjARbzWi0pnJbFEom3SW1NR6f1c9IvWla3mhX6i6sN5UeWE2sT'
 
 DB_HOST: 'postgres'
 DB_PORT: '5432'
-DB_NAME: 'postgres'
+DB_NAME: 'start-backend'
 DB_USER: 'postgres'
 DB_PASSWORD: 'example'
 
